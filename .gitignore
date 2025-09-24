@@ -20,6 +20,9 @@ cache/
 data/
 models/
 
+# Kaggle
+/.kaggle
+
 # IDE
 .vscode/
 .idea/
