@@ -1,0 +1,10 @@
+schema: '2.0'
+stages:
+  download_dataset:
+    cmd: python src/download_dataset.py home-credit-default-risk data/raw
+    outs:
+    - path: data/raw
+      hash: md5
+      md5: be145c3854454ad97fd16454f9aed966.dir
+      size: 2684261617
+      nfiles: 10
