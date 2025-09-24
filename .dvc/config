@@ -1,0 +1,4 @@
+[core]
+    remote = syncthing
+['remote "syncthing"']
+    url = ../../credit-fault-syncthing
