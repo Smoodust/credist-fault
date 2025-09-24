@@ -1,7 +1,5 @@
 stages:
   download_dataset:
-    cmd: python src/data/download_dataset.py home-credit-default-risk data/raw
-    params:
-    - download.competition_name
+    cmd: python src/download_dataset.py home-credit-default-risk data/raw
     outs:
     - data/raw
