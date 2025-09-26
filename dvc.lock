@@ -2,6 +2,11 @@ schema: '2.0'
 stages:
   download_dataset:
     cmd: uv run src/download_dataset.py home-credit-default-risk data/raw
+    deps:
+    - path: src/download_dataset.py
+      hash: md5
+      md5: a8dca40dae4cb0efa7bb0e83b62fc0c9
+      size: 1359
     outs:
     - path: data/raw
       hash: md5
@@ -11,16 +16,44 @@ stages:
   train:
     cmd: uv run src/train.py
     deps:
+    - path: data/processed/train.csv
+      hash: md5
+      md5: a374fe03457eb1437026471408b08546
+      size: 366940340
+    - path: src/train.py
+      hash: md5
+      md5: b33d3c534eb6bd7f81110a61f6c9d2cc
+      size: 1184
+    outs:
+    - path: metric.json
+      hash: md5
+      md5: ce441fd98ce867e85366a583189fd2c2
+      size: 225
+    - path: models/pipelines_baseline.pickle
+      hash: md5
+      md5: 035b3a98889ce5b6bd159c395ee685e9
+      size: 2255984
+  join_features:
+    cmd: uv run src/join_features.py
+    deps:
+    - path: data/raw/application_test.csv
+      hash: md5
+      md5: 42c2c6b7683003bae1b99c469f79497f
+      size: 26567651
     - path: data/raw/application_train.csv
       hash: md5
       md5: 793a017f41fbac1dc28176b26dbab30e
       size: 166133370
+    - path: src/join_features.py
+      hash: md5
+      md5: 838abb65eb607bfb3cf612402c8c2072
+      size: 595
     outs:
-    - path: metric.json
+    - path: data/processed/test.csv
       hash: md5
-      md5: f32998377bcbadba5219f6b14fae159a
-      size: 225
-    - path: models/pipelines_baseline.pickle
+      md5: a87d3701a814779ab6f59dbdd93397e6
+      size: 58327057
+    - path: data/processed/train.csv
       hash: md5
-      md5: e0dee639f58aaf553191ec01bf4b57c1
-      size: 3434835
+      md5: a374fe03457eb1437026471408b08546
+      size: 366940340

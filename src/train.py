@@ -2,13 +2,15 @@ import polars as pl
 import pickle
 from tqdm import tqdm
 import json
-
+import os
 from sklearn.pipeline import Pipeline
 from sklearn.model_selection import StratifiedKFold
 from sklearn.metrics import roc_auc_score
 from skrub import tabular_pipeline
 
 N_FOLDS = 5
+
+os.makedirs("models/", exist_ok=True) 
 
 train = pl.read_csv(f"data/raw/application_train.csv")
 train = train.drop("SK_ID_CURR")

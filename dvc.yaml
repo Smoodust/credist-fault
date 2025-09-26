@@ -1,12 +1,15 @@
 stages:
   download_dataset:
     cmd: uv run src/download_dataset.py home-credit-default-risk data/raw
+    deps:
+    - src/download_dataset.py
     outs:
     - data/raw
   train:
     cmd:
       uv run src/train.py
     deps:
+    - src/train.py
     - data/raw/application_train.csv
     outs:
     - models/pipelines_baseline.pickle
