@@ -1,5 +1,17 @@
 stages:
   download_dataset:
-    cmd: python src/download_dataset.py home-credit-default-risk data/raw
+    cmd: uv run src/download_dataset.py home-credit-default-risk data/raw
     outs:
     - data/raw
+  train:
+    cmd:
+      uv run src/train.py
+    deps:
+    - data/raw/application_train.csv
+    outs:
+    - models/pipelines_baseline.pickle
+    - metric.json
+
+
+metrics:
+- metric.json
