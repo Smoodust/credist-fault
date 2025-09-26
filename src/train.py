@@ -3,17 +3,15 @@ import pickle
 from tqdm import tqdm
 import json
 import os
-from sklearn.pipeline import Pipeline
+from sklearn.ensemble import HistGradientBoostingClassifier
 from sklearn.model_selection import StratifiedKFold
 from sklearn.metrics import roc_auc_score
-from skrub import tabular_pipeline
 
 N_FOLDS = 5
 
 os.makedirs("models/", exist_ok=True) 
 
-train = pl.read_csv(f"data/raw/application_train.csv")
-train = train.drop("SK_ID_CURR")
+train = pl.read_csv(f"data/features/train_features.csv")
 
 X = train.drop("TARGET")
 y = train["TARGET"]
@@ -21,12 +19,12 @@ y = train["TARGET"]
 scores = []
 pipelines = []
 
-skf = StratifiedKFold(n_splits=N_FOLDS, shuffle=True, random_state=True)
+skf = StratifiedKFold(n_splits=N_FOLDS, shuffle=True, random_state=42)
 for train_index, val_index in tqdm(skf.split(X, y), total=N_FOLDS):
     X_train, y_train = X[train_index], y[train_index]
     X_val, y_val = X[val_index], y[val_index]
 
-    pipeline: Pipeline = tabular_pipeline('classifier')
+    pipeline = HistGradientBoostingClassifier(random_state=42)
     pipeline.fit(X_train, y_train)
 
     val_pred = pipeline.predict(X_val)

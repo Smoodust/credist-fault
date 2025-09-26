@@ -16,25 +16,53 @@ stages:
   train:
     cmd: uv run src/train.py
     deps:
-    - path: data/processed/train.csv
+    - path: data/features/train_features.csv
       hash: md5
-      md5: a374fe03457eb1437026471408b08546
-      size: 366940340
+      md5: d13665f1e1a8690fbd2cd7ec555e2d0d
+      size: 371953586
     - path: src/train.py
       hash: md5
-      md5: b33d3c534eb6bd7f81110a61f6c9d2cc
-      size: 1184
+      md5: 03d993a727fa70316d6a2a6ad6019019
+      size: 1192
     outs:
     - path: metric.json
       hash: md5
-      md5: ce441fd98ce867e85366a583189fd2c2
-      size: 225
+      md5: 07bdc8d5914504d47bed6efa8ab5516e
+      size: 224
     - path: models/pipelines_baseline.pickle
       hash: md5
-      md5: 035b3a98889ce5b6bd159c395ee685e9
-      size: 2255984
+      md5: c18e22c87a9f69c3d25aba321b876569
+      size: 2315845
   join_features:
-    cmd: uv run src/join_features.py
+    cmd: uv run src/features/feature_join.py
+    deps:
+    - path: data/processed/application_test.csv
+      hash: md5
+      md5: b2a3b81f02226dfff49d254b7aa5c996
+      size: 26567653
+    - path: data/processed/application_train.csv
+      hash: md5
+      md5: e9786c9b5365ac874f82b1e2978f84e1
+      size: 369563434
+    - path: data/processed/bureau.csv
+      hash: md5
+      md5: 99bf946db4e3ae7312a98a76c9fe2ab1
+      size: 9144276
+    - path: src/features/feature_join.py
+      hash: md5
+      md5: e2bb4f9d0d0f3bebcf7fbdb23f9c3e0b
+      size: 459
+    outs:
+    - path: data/features/test_features.csv
+      hash: md5
+      md5: 4baf9fa70d93efd176ae01e87aeccb00
+      size: 27582102
+    - path: data/features/train_features.csv
+      hash: md5
+      md5: d13665f1e1a8690fbd2cd7ec555e2d0d
+      size: 371953586
+  application_features:
+    cmd: uv run src/features/application.py
     deps:
     - path: data/raw/application_test.csv
       hash: md5
@@ -44,16 +72,32 @@ stages:
       hash: md5
       md5: 793a017f41fbac1dc28176b26dbab30e
       size: 166133370
-    - path: src/join_features.py
+    - path: src/features/application.py
       hash: md5
-      md5: 838abb65eb607bfb3cf612402c8c2072
-      size: 595
+      md5: 4d30b95f99c704a5e4189267644cc68c
+      size: 768
     outs:
-    - path: data/processed/test.csv
+    - path: data/processed/application_test.csv
       hash: md5
-      md5: a87d3701a814779ab6f59dbdd93397e6
-      size: 58327057
-    - path: data/processed/train.csv
+      md5: b2a3b81f02226dfff49d254b7aa5c996
+      size: 26567653
+    - path: data/processed/application_train.csv
       hash: md5
-      md5: a374fe03457eb1437026471408b08546
-      size: 366940340
+      md5: e9786c9b5365ac874f82b1e2978f84e1
+      size: 369563434
+  bureau_features:
+    cmd: uv run src/features/bureau.py
+    deps:
+    - path: data/raw/bureau.csv
+      hash: md5
+      md5: ec0f59a16e7071de66b83217b23bb390
+      size: 170016717
+    - path: src/features/bureau.py
+      hash: md5
+      md5: 99d1e141b00120dbf66f382afa62ad33
+      size: 503
+    outs:
+    - path: data/processed/bureau.csv
+      hash: md5
+      md5: 99bf946db4e3ae7312a98a76c9fe2ab1
+      size: 9144276

@@ -5,12 +5,38 @@ stages:
     - src/download_dataset.py
     outs:
     - data/raw
+  application_features:
+    cmd: uv run src/features/application.py
+    deps:
+    - src/features/application.py
+    - data/raw/application_train.csv
+    - data/raw/application_test.csv
+    outs:
+    - data/processed/application_train.csv
+    - data/processed/application_test.csv
+  bureau_features:
+    cmd: uv run src/features/bureau.py
+    deps:
+    - src/features/bureau.py
+    - data/raw/bureau.csv
+    outs:
+    - data/processed/bureau.csv
+  join_features:
+    cmd: uv run src/features/feature_join.py
+    deps:
+    - src/features/feature_join.py
+    - data/processed/application_train.csv
+    - data/processed/application_test.csv
+    - data/processed/bureau.csv
+    outs:
+    - data/features/train_features.csv
+    - data/features/test_features.csv
   train:
     cmd:
       uv run src/train.py
     deps:
     - src/train.py
-    - data/raw/application_train.csv
+    - data/features/train_features.csv
     outs:
     - models/pipelines_baseline.pickle
     - metric.json

@@ -1,4 +1,5 @@
 [core]
     remote = syncthing
+    autostage = true
 ['remote "syncthing"']
     url = ../../credit-fault-syncthing
